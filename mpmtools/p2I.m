@@ -8,14 +8,14 @@ fxI = zeros(nrNodes,2);
 for p = 1:nrPts
   % Fix p then find I to contribute to
   nodes = n4e(e4p(p,:),:)';
-  Nxp4n = shapeR(xp(p,:),c4n(nodes,:));
-  dNxpdx4n = shapeRg(xp(p,:),c4n(nodes,:));
+  Nxp = shapeR(xp(p,:),c4n(nodes,:));
+  dNxpdx = shapeRg(xp(p,:),c4n(nodes,:));
   onecol = ones(length(nodes),1);
   twocols = [onecol; 2*onecol];
-  mI = mI + sparse(nodes, onecol, m4p(p).*Nxp4n,nrNodes,1);
-  vI = vI + sparse([nodes;nodes],twocols, m4p(p).*Nxp4n*vp(p,:),nrNodes,2);
-  fiI = fiI + sparse([nodes;nodes],twocols,-vol4p(p)*dNxpdx4n*sigma4p(:,:,p)',nrNodes,2);
-  fxI = fxI + sparse([nodes;nodes],twocols, m4p(p).*Nxp4n*b4p(p,:),nrNodes,2);
+  mI = mI + sparse(nodes, onecol, m4p(p).*Nxp,nrNodes,1);
+  vI = vI + sparse([nodes;nodes],twocols, m4p(p).*Nxp*vp(p,:),nrNodes,2);
+  fiI = fiI + sparse([nodes;nodes],twocols,-vol4p(p)*dNxpdx*sigma4p(:,:,p)',nrNodes,2);
+  fxI = fxI + sparse([nodes;nodes],twocols, m4p(p).*Nxp*b4p(p,:),nrNodes,2);
 end
 vI = vI./repmat(mI,1,2);
 

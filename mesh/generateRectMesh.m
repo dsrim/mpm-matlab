@@ -1,4 +1,4 @@
-function [c4n,n4e,inNodes,bdNodes,bdNorms,bdTans,inComps,vol4e] ...
+function [c4n,n4e,inNodes,bdNodes,bdNorms,bdTans,inComps,bdElts,vol4e] ...
   = generateRectMesh(xlim,ylim,nx,ny)
 
 xx = linspace(xlim(1),xlim(2),nx+1); 
@@ -21,4 +21,6 @@ l = ones(nx+1,1);
 bdNorms = [bdNodes, [-2*l; 1*l; 2*l; -1*l]];
 bdTans = [bdNodes, [1*l; 2*l; -1*l; -2*l]];
 inComps = logical(ones(nrNodes,2));
+bdElts = [(1:ny)', (ny:ny:(ny*nx))', ...
+          ((ny*nx):-1:(1+ny*(nx-1)))', ((1+ny*(nx-1)):-ny:1)'];
 end

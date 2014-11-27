@@ -12,8 +12,8 @@ lambda = 0.3;
 mu = 0.4;
 c0 = 6;
 t = 0;                                          % initial time
-T = 2/c0;                                       % final time
-N = floor(n^2);
+T = 2/c0 + .01;                                       % final time
+N = floor(2*n);
 dt = T/N;
 E = 1;
 A = 0.1;
@@ -33,7 +33,7 @@ vexact = @(X,t) A*sin(pi*X)*cos(c0*pi*t);
 
 % Grid / Material Point set-up.
 nx = n; ny = n;
-[c4n,n4e,inNodes,bdNodes,bdNormals,bdTangents,inComps,vol4e] = ...
+[c4n,n4e,inNodes,bdNodes,bdNormals,bdTangents,inComps,bdElts,vol4e] = ...
         generateRectMesh(xlim,ylim,nx,ny);
 e4n = computeE4n(n4e);
 [x4p,e4p] = generateMp(c4n,n4e,@isbody,nmpe);
@@ -63,23 +63,25 @@ m4p(:,1) = vol4p(:,1).*rho4p(:,1);
 for j = 1:(N+1)
 % Interpolate to Grid
 [mI,vI,fiI,fxI,fI] = p2I(x4p,e4p,c4n,n4e,m4p,vol4p,v4p,...
-                                    b4p,sigma4p,F4p,nrPts,nrNodes,bdNodes,bdNormals);
+                                    b4p,sigma4p,F4p,nrPts,nrNodes,bdElts,bdNormals);
 % Solve on Grid
 vIexact = vexact(c4n,t);
-display(['-- ' num2str(max(abs(vI(inNodes,:) - vIexact(inNodes,:))))])
+% display(['-- ' num2str(max(abs(vI(inNodes,:) - vIexact(inNodes,:))))])
+
 vIold = vI;
 vI = vI + dt*fI./repmat(mI,1,2);
 
+
+uI = uI + dt*vI;
 for k = 1:length(bdNormals)
   vI(bdNormals(k,1),abs(bdNormals(k,2))) = 0;  
-%    fI(bdNormals(k,1),abs(bdNormals(k,2))) = 0;
+  uI(bdNormals(k,1),abs(bdNormals(k,2))) = 0;  
 end
-uI = uI + dt*vI;
 
 % Update Material Pts
 [x4p,e4p,v4p,F4p,J4p,rho4p,vol4p,sigma4p] = updatePts(...
                             x4p,v4p,m4p,mI,vol4p,e4p,c4n,n4e,e4n,...
-                            rhop0,vI,vIold,F4p,FI,nrPts,nrNodes,E,dt,lambda,mu);
+                            rhop0,vI,vIold,F4p,FI,nrPts,nrNodes,bdElts,E,dt,lambda,mu);
 t = t + dt;
 b4p = b0(x4p,t);
 
