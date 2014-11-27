@@ -1,10 +1,10 @@
-function run2DMPM
+function L2error = run2DMPM(n)
 close all
 
 %% Run 2D MPM code
 addpath(genpath('./'))
 xlim = [0,1]; ylim = [0,1]; 
-nmpe = 4; n = 16;
+nmpe = 4; 
 dx = (xlim(2) - xlim(1))/n;
 
 %% Initialization
@@ -12,9 +12,9 @@ lambda = 0.3;
 mu = 0.4;
 c0 = 6;
 t = 0;                                          % initial time
-T = 2/c0 + .01;                                       % final time
+T = 2.5/c0 ;                                       % final time
 % T= 0.3004;
-dt = 2^(-8);
+dt = 0.05*dx;
 E = 1;
 A = 0.1;
 u0 = @(X) 0.*X(:,1);
@@ -92,7 +92,7 @@ b4p = b0(x4p,t);
 % plotMesh(c4n,n4e,x4p,t)
 
 % plotSol(c4n,n4e,x4p,t,v4p,vexact(x4p,t),vI,vexact(c4n,t))
-plotSol(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
+% plotSol(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
 vIexact = vexact(c4n,t);
 % uIexact = uexact(c4n,t);
 % display(num2str(max(abs(vI(inNodes,:) - vIexact(inNodes,:)))))
@@ -103,7 +103,7 @@ end
 
 L2error = computeL2error(uI,uexact,c4n,n4e,T);
 % Output step
-display(L2error)
+% display(L2error)
 
 
 end

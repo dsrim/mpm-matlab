@@ -15,6 +15,7 @@ for p = 1:nrPts
   twocols = [onecol; 2*onecol];
   mI = mI + sparse(nodes, onecol, m4p(p).*Nxp,nrNodes,1);
   vI = vI + sparse([nodes;nodes],twocols, m4p(p).*Nxp*vp(p,:),nrNodes,2);
+%     vI = vI + sparse([nodes;nodes],twocols, m4p(p).*Nxp2n0.*repmat(vp(p,:),4,1),nrNodes,2);
   fiI = fiI + sparse([nodes;nodes],twocols,-vol4p(p)*dNxpdx*sigma4p(:,:,p)',nrNodes,2);
   fxI = fxI + sparse([nodes;nodes],twocols, m4p(p).*Nxp*b4p(p,:),nrNodes,2);
 end
