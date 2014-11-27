@@ -1,10 +1,10 @@
-function L2error = run2DMPM
+function run2DMPM
 close all
 
 %% Run 2D MPM code
 addpath(genpath('./'))
 xlim = [0,1]; ylim = [0,1]; 
-nmpe = 4; n = 4;
+nmpe = 4; n = 16;
 dx = (xlim(2) - xlim(1))/n;
 
 %% Initialization
@@ -13,8 +13,8 @@ mu = 0.4;
 c0 = 6;
 t = 0;                                          % initial time
 T = 2/c0 + .01;                                       % final time
-N = floor(2*n);
-dt = T/N;
+% T= 0.3004;
+dt = 2^(-8);
 E = 1;
 A = 0.1;
 u0 = @(X) 0.*X(:,1);
@@ -60,7 +60,7 @@ m4p(:,1) = vol4p(:,1).*rho4p(:,1);
 
 %% MPM Loop
 
-for j = 1:(N+1)
+while (t < T)
 % Interpolate to Grid
 [mI,vI,fiI,fxI,fI] = p2I(x4p,e4p,c4n,n4e,m4p,vol4p,v4p,...
                                     b4p,sigma4p,F4p,nrPts,nrNodes,bdElts,bdNormals);
@@ -82,7 +82,11 @@ end
 [x4p,e4p,v4p,F4p,J4p,rho4p,vol4p,sigma4p] = updatePts(...
                             x4p,v4p,m4p,mI,vol4p,e4p,c4n,n4e,e4n,...
                             rhop0,vI,vIold,F4p,FI,nrPts,nrNodes,bdElts,E,dt,lambda,mu);
-t = t + dt;
+if t + dt > T
+  t = T;
+else
+  t = t + dt;
+end
 b4p = b0(x4p,t);
 
 % plotMesh(c4n,n4e,x4p,t)

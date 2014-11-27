@@ -9,6 +9,7 @@ for p = 1:nrPts
   % Fix p then find I to contribute to
   nodes = n4e(e4p(p,:),:)';
   Nxp = shapeR(xp(p,:),c4n(nodes,:));
+  Nxp2n0 = shapeR2n0(xp(p,:),c4n(nodes,:),nodes,bdNormals);
   dNxpdx = shapeRg(xp(p,:),c4n(nodes,:));
   onecol = ones(length(nodes),1);
   twocols = [onecol; 2*onecol];

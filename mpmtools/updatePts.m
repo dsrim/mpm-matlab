@@ -28,13 +28,13 @@ for p = 1:nrPts
     display(['warning negative det(F) for p=' num2str(p) ])
   end
   sigma4pn(:,:,p) = (lambda*log(J4p(p))*eye(2) + mu*(F4pn(:,:,p)*F4pn(:,:,p)' - eye(2)))./J4p(p);
-%   sides = logical(sum(elem == bdElts,1));
-%   if sum(sides) > 0
-%     for j = 1:sum(sides)
-%        s = allsides(sides);
-%        sigma4pn(ind4side(s(j),1),ind4side(s(j),2),p) = 0;
-%     end
-%   end
+  sides = logical(sum(elem == bdElts,1));
+  if sum(sides) > 0
+    for j = 1:sum(sides)
+       s = allsides(sides);
+       sigma4pn(ind4side(s(j),1),ind4side(s(j),2),p) = 0;
+    end
+  end
 end
 
 rho4pn = rhop0./J4p;
