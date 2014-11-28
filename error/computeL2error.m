@@ -1,5 +1,5 @@
-function val = computeL2error(uI,uexact,c4n,n4e,T)
-val = 0;
+function [val,totalbd] = computeL2error(uI,uexact,c4n,n4e,T)
+val = 0; totalbd = 0;
 nrElems = size(n4e,1);
 for elem = 1:nrElems
     a = c4n(n4e(elem,1),1);
@@ -8,8 +8,10 @@ for elem = 1:nrElems
     d = c4n(n4e(elem,3),2);
     c4nL = c4n(n4e(elem,:),:);
     uIL= uI(n4e(elem,:),:);
-    val = val + ...
-      quad2d(@(x,y) squareerror(x,y,uIL,c4nL,uexact,T),a,b,c,d,'AbsTol',1e-8);
+    [intgrl,upbd] = quad2d(@(x,y) squareerror(x,y,uIL,c4nL,uexact,T),a,b,c,d,'RelTol',1e-12);
+    val = val + intgrl;
+    totalbd = totalbd + upbd;
+      
 end
 val = sqrt(val);
 end
