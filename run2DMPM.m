@@ -11,8 +11,8 @@ lambda = 0.3;
 mu = 0.4;
 c0 = sqrt(mu);
 t = 0;                                          % initial time
-T = 2.0/c0 ;                                       % final time
-dt = 0.01*(dx);
+T = 2/c0 ;                                       % final time
+dt = 0.5*(dx);
 A = 0.01;
 v0 = @(X) A*sin(pi*X);
 f = @(Z,t) A/c0*cos(pi*Z).*sin(c0*pi*t) + 1;
@@ -79,14 +79,9 @@ b4p = b(x4p,t);
                             x4p,v4p,m4p,mI,vol4p,e4p,c4n,n4e,e4n,...
                             rhop0,vI,vIold,F4p,nrPts,nrNodes,bdElts,dt,lambda,mu);
 
-
-% plotSol(c4n,n4e,x4p,t,v4p,vexact(x4p,t),vI,vexact(c4n,t))
-% vIexact = vexact(c4n,t);
-% % uIexact = uexact(c4n,t);
-% % display(num2str(max(abs(vI(inNodes,:) - vIexact(inNodes,:)))))
 display(['time = ' num2str(t,'%1.4f') '/' num2str(T,'%1.4f')]);
-
 plotSol(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
+
 end
 
 
