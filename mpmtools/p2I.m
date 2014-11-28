@@ -1,31 +1,21 @@
-function [mI,vI,fiI,fxI,fI] = p2I(xp,e4p,c4n,n4e,m4p,vol4p,vp,...
+function [mI,mvI,fI] = p2I(xp,e4p,c4n,n4e,m4p,vol4p,vp,...
                                     b4p,sigma4p,Fp,nrPts,nrNodes,bdNodes,bdNormals)
 % map values on material points to the grid
 mI = zeros(nrNodes,1);
-vI = zeros(nrNodes,2);
-fiI = zeros(nrNodes,2);
-fxI = zeros(nrNodes,2);
-for p = 1:nrPts
+mvI = zeros(nrNodes,2);
+fI = zeros(nrNodes,2);
+parfor p = 1:nrPts
   % Fix p then find I to contribute to
   nodes = n4e(e4p(p,:),:)';
   Nxp = shapeR(xp(p,:),c4n(nodes,:));
-  Nxp2n0 = shapeR2n0(xp(p,:),c4n(nodes,:),nodes,bdNormals);
   dNxpdx = shapeRg(xp(p,:),c4n(nodes,:));
-  onecol = ones(length(nodes),1);
-  twocols = [onecol; 2*onecol];
-  mI = mI + sparse(nodes, onecol, m4p(p).*Nxp,nrNodes,1);
-  vI = vI + sparse([nodes;nodes],twocols, m4p(p).*Nxp*vp(p,:),nrNodes,2);
-%     vI = vI + sparse([nodes;nodes],twocols, m4p(p).*Nxp2n0.*repmat(vp(p,:),4,1),nrNodes,2);
-  fiI = fiI + sparse([nodes;nodes],twocols,-vol4p(p)*dNxpdx*sigma4p(:,:,p)',nrNodes,2);
-  fxI = fxI + sparse([nodes;nodes],twocols, m4p(p).*Nxp*b4p(p,:),nrNodes,2);
+  col = ones(length(nodes),1);
+  cols = [col; 2*col];
+  mI = mI + sparse(nodes, col, m4p(p)*Nxp,nrNodes,1);
+  mvI = mvI + sparse([nodes;nodes],cols, m4p(p).*Nxp*vp(p,:),nrNodes,2);
+  fI = fI + sparse([nodes;nodes],cols,-vol4p(p)*dNxpdx*sigma4p(:,:,p)'...
+      +m4p(p).*Nxp*b4p(p,:),nrNodes,2);
 end
-vI = vI./repmat(mI,1,2);
-
-
-% impose dirichlet boundary condition by setting components to zero.
-for k = 1:length(bdNormals)
-  vI(bdNormals(k,1),abs(bdNormals(k,2))) = 0;  
-%   fiI(bdNormals(k,1),abs(bdNormals(k,2))) = 0;
-end
-fI = fiI + fxI;
+mvI(mI < 1e-14) = 0;
+mvI = normalBC(mvI,bdNormals);
 end
