@@ -1,5 +1,5 @@
 function [mI,mvI,fI] = p2I(xp,e4p,c4n,n4e,m4p,vol4p,vp,...
-                                    b4p,sigma4p,Fp,nrPts,nrNodes,bdNodes,bdNormals)
+                                    b4p,sigma4p,nrPts,nrNodes,bdNormals)
 % map values on material points to the grid
 mI = zeros(nrNodes,1);
 mvI = zeros(nrNodes,2);

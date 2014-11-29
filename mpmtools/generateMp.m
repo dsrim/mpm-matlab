@@ -1,7 +1,7 @@
-function [xp,e4p] = generateMp(c4n,n4e,isbody,nmpe)
+function [x4p,e4p] = generateMp(c4n,n4e,isbody,nmpe)
 mmpe = ceil(sqrt(nmpe));
 e4p = logical([]);
-xp = [];
+x4p = [];
 nrElems = size(n4e,1);
 for elem = 1:nrElems
   mp4e = [];
@@ -11,8 +11,8 @@ for elem = 1:nrElems
   yy = linspace(ylim4e(1),ylim4e(2),mmpe+2);
   [X,Y] =  meshgrid(xx(2:(end-1)),yy(2:(end-1)));
   [mp4e(:,1),mp4e(:,2)] = isbody(X(:),Y(:));
-  xp = [xp; mp4e];
-  k = size(xp,1);
+  x4p = [x4p; mp4e];
+  k = size(x4p,1);
   npts = size(mp4e,1);
   e4p((k-npts+1):k,elem) = ones(npts,1);
 end

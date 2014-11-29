@@ -1,5 +1,5 @@
 function ne4p = updateE4p(c4n,n4e,e4n,x4p,e4p)
-
+% update which element each material pt belongs to.
 nrElems = size(n4e,1);
 i4elem = 1:nrElems;
 nrPts = size(x4p,1);
@@ -19,6 +19,4 @@ for j = 1:nrPts
     end
   end
 end
-
-
 end
