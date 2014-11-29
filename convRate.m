@@ -8,7 +8,7 @@ for k = 1:length(dof)
 end
 
 
-figure(3); clf;
+f = figure('visible','off'); clf;
 h = 1./(sqrt(2)*(1:length(dof)));
 loglog(h,convHistory,'-bx')
 p = polyfit(log(h),log(convHistory),1);
