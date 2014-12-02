@@ -23,7 +23,7 @@ c0 = sqrt(mu);                                  % prob param
 t = 0;                                          % init time
 T = 2/c0 ;                                      % final time
 dt = 0.5*(dx);                                  % time step
-A = 0.01;                                       % prob param
+A = 0.05;                                       % prob param
 v0 = @(X) A*sin(pi*X);                          % initial velocity
 f = @(Z,t) A/c0*cos(pi*Z).*sin(c0*pi*t) + 1;    % defd for convenience
 df = @(Z,t) -A*pi/c0*sin(pi*Z).*sin(c0*pi*t);   % defd for convenience
@@ -75,7 +75,7 @@ end
 
 % Interpolate to Grid
 [mI,mvI,fI] = p2I(x4p,e4p,c4n,n4e,m4p,vol4p,v4p,...
-                  b4p,sigma4p,F4p,nrPts,nrNodes,bdNormals);
+                  b4p,sigma4p,nrPts,nrNodes,bdNormals);
 
 % Solve on Grid (update momentum)
 posI = mI > 1e-12;    
@@ -89,10 +89,13 @@ uI = uI + dt*vI;
 t = t + dt;                       % time step
 b4p = b(x4p,t);                   % update body force
 [x4p,e4p,v4p,F4p,J4p,rho4p,vol4p,sigma4p] = I2p(...
-                                     x4p,v4p,m4p,e4p,c4n,n4e,e4n,...
-                                     vI,vIold,nrPts,nrNodes,dt,lambda,mu);
+                                     x4p,v4p,m4p,e4p,c4n,n4e,e4n,rho4p(:,1),...
+                                     vI,vIold,F4p,nrPts,nrNodes,dt,lambda,mu);
 
 display(['time = ' num2str(t,'%1.4f') '/' num2str(T,'%1.4f')]);
+
+
+plotSol(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
 end
 
 
