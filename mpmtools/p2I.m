@@ -1,4 +1,4 @@
-function [mI,mvI,fI] = p2I(xp,e4p,c4n,n4e,m4p,vol4p,vp,...
+function [mI,mvI,fI] = p2I(x4p,e4p,c4n,n4e,m4p,vol4p,vp,...
                                     b4p,sigma4p,nrPts,nrNodes,bdNormals)
 % map values on material points to the grid
 mI = zeros(nrNodes,1);
@@ -7,8 +7,8 @@ fI = zeros(nrNodes,2);
 parfor p = 1:nrPts
   % Fix p then find I to contribute to
   nodes = n4e(e4p(p,:),:)';
-  Nxp = shapeR(xp(p,:),c4n(nodes,:));
-  dNxpdx = shapeRg(xp(p,:),c4n(nodes,:));
+  Nxp = shapeR(x4p(p,:),c4n(nodes,:));
+  dNxpdx = shapeRg(x4p(p,:),c4n(nodes,:));
   col = ones(length(nodes),1);
   cols = [col; 2*col];
   mI = mI + sparse(nodes, col, m4p(p)*Nxp,nrNodes,1);
