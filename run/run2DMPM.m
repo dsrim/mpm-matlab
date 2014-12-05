@@ -95,11 +95,11 @@ b4p = b(x4p,t);                   % update body force
 display(['time = ' num2str(t,'%1.4f') '/' num2str(T,'%1.4f')]);
 
 
-plotSol(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
+plotSolExact(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
 end
 
 
-plotSol(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
+plotSolExact(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
 [L2error,upbd] = computeL2error(uI,uexact,c4n,n4e,T);
 end
 

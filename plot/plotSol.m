@@ -23,8 +23,7 @@ drawnow
 %     '-' num2str(t,'%1.4f') '.tikz'])
 
 f = figure('visible','off'); 
-
-figure(1);clf;
+clf;
 for elem = 1:nrElems
   plot(c4n(n4e(elem,[1:4 1]),1),c4n(n4e(elem,[1:4,1]),2));
   hold on;
@@ -42,8 +41,9 @@ title({'MPM Solution v(x_p,t)';['t=' num2str(t,'%10.3f') ',' num2str(nrElems) ' 
    num2str(nrPts) ' mtrl pts']})
 legend('mesh','mtrl pts','v_I','Location','NorthEastOutside');
 drawnow
-matlab2tikz(['../output/mpm-dsoldt-' num2str(nrElems) '-' num2str(nrPts/nrElems) ...
-    '-' '-' num2str(t,'%1.4f') '.tikz'])
+%matlab2tikz(['../output/mpm-dsoldt-' num2str(nrElems) '-' num2str(nrPts/nrElems) ...
+    %'-' '-' num2str(t,'%1.4f') '.tikz'])
+saveas(f,['../output/mpm-dsoldt-' num2str(nrElems) '-' num2str(nrPts/nrElems) '-' num2str(t,'%1.4f') '.eps'], 'eps')
 
 f = figure('visible','off'); clf;
 h = max(norm(c4n(3,:) - c4n(1,:),2));
