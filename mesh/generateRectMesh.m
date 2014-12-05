@@ -16,8 +16,9 @@ n4e = [nxy1(:),nxy2(:),nxy3(:),nxy4(:)];
 bdNodes = [nxy(1,:)'; nxy(:,end); nxy(end,:)'; nxy(:,1)];
 inNodes = 1:nrNodes; inNodes(bdNodes) = [];
 vol4e = ones(size(n4e,1),1).*((xlim(2)-xlim(1))/nx)*((ylim(2)-ylim(1))/ny);
-l = ones(nx+1,1);
-bdNorms = [bdNodes, [-2*l; 1*l; 2*l; -1*l]];
-bdTans = [bdNodes, [1*l; 2*l; -1*l; -2*l]];
+lx = ones(nx+1,1);
+ly = ones(ny+1,1);
+bdNorms = [bdNodes, [-2*lx; 1*ly; 2*lx; -1*ly]];
+bdTans = [bdNodes, [1*lx; 2*ly; -1*lx; -2*ly]];
 inComps = normalBC(logical(ones(nrNodes,2)),bdNorms);
 end
