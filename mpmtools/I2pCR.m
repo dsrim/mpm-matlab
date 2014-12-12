@@ -11,7 +11,7 @@ for p = 1:nrPts
   % fix p then find nonzero NIxp
   sides = s4e(e4p(p,:),:);
   nodes = n4e(e4p(p,:),:);
-  NIxp = shapeCR(x4p(p,:),c4n(nodes,:));
+  NIxp = shapeCRp(x4p(p,:),c4n(nodes,:));
   dNIxp = shapeCRg(c4n(nodes,:));
   F4pn(:,:,p) = (eye(2,2) + dt*vI(sides,:)'*dNIxp)*F4p(:,:,p);
   x4pn(p,:) = x4p(p,:) + dt*NIxp'*vI(sides,:);

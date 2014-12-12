@@ -1,4 +1,4 @@
-function e4pn = updateE4p(c4n,n4e,e4n,x4p,e4p)
+function e4pn = updateE4pS(c4n,n4e,e4n,x4p,e4p)
 % update which element each material pt belongs to.
 nrElems = size(n4e,1);
 i4elem = 1:nrElems;
@@ -8,7 +8,8 @@ for j = 1:nrPts
     e4pn(j,e4p(j,:)) = true;
   else
     c4e = [];
-    e2search = i4elem(sum(e4n(n4e(e4p(j,:),:),:),1) > 0);
+    e2search = unique(e4n(n4e(e4p(j,:),:),:));
+    e2search = e2search(e2search~=0);
     for k = 1:length(e2search)
       c4e(:,:,k) = c4n(n4e(e2search(k),:),:);
     end

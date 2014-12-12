@@ -10,6 +10,7 @@ function L2error = run2DMPM(n)
 %
 
 
+scale = 100;
 %% Run 2D MPM code
 addpath(genpath('./'))
 xlim = [0,1]; ylim = [0,1]; 
@@ -17,13 +18,13 @@ nmp4e = 4;
 dx = (xlim(2) - xlim(1))/n;
 
 %% Initialization
-lambda = 0.3;                                   % Lame const
+lambda = 20;                                   % Lame const 0.3
 mu = 0.4;                                       % Lame const
 c0 = sqrt(mu);                                  % prob param 
 t = 0;                                          % init time
 T = 2/c0 ;                                      % final time
-dt = 0.5*(dx);                                  % time step
-A = 0.01;                                       % prob param
+dt = 0.1*(dx);                                  % time step
+A = 0.001;                                       % prob param
 v0 = @(X) A*sin(pi*X);                          % initial velocity
 f = @(Z,t) A/c0*cos(pi*Z).*sin(c0*pi*t) + 1;    % defd for convenience
 df = @(Z,t) -A*pi/c0*sin(pi*Z).*sin(c0*pi*t);   % defd for convenience
@@ -34,6 +35,7 @@ b = @(X,t) [(c0^2 - mu)*df(X(:,1),t) ...        % body force
   + (lambda*log(abs(f(X(:,1),t).*f(X(:,2),t))) ...
   - (lambda + mu)).*df(X(:,2),t)./f(X(:,2),t).^2];
 rho0 = @(x) 0*x(:,1)+1;                         % init density = 1
+% b = @(X,t) 0*X;
 sigma0 = @(x) zeros(2,2,length(x)) ;            % init stress = 0
 uexact = @(X,t) A/(c0*pi)*sin(pi*X)*sin(c0*pi*t);   % exact displacement
 vexact = @(X,t) A*sin(pi*X)*cos(c0*pi*t);           % exact velocity
@@ -95,11 +97,21 @@ b4p = b(x4p,t);                   % update body force
 display(['time = ' num2str(t,'%1.4f') '/' num2str(T,'%1.4f')]);
 
 
-plotSolExact(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
+% plotSolExact(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
+% plotSolExact(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
+figure(1); clf;
+% plotTriangulation(c4n,n4e)
+hold on;
+plot(x4p(:,1),x4p(:,2),'r.')
+% quiver(x4p(:,1),x4p(:,2),scale*v4p(:,1),scale*v4p(:,2),0,'r');
+vIexact = vexact(c4n,t);
+quiver(c4n(:,1),c4n(:,2),scale*vIexact(:,1),scale*vIexact(:,2),0,'g');
+quiver(c4n(:,1),c4n(:,2),scale*vI(:,1),scale*vI(:,2),0,'b');
+hold off;
 end
 
 
-plotSolExact(c4n,n4e,x4p,t,v4p,vexact(x4p,t),uI,uexact(c4n,t))
+% plotSolExact(c4n,n4e,x4p,t,v  4p,vexact(x4p,t),uI,uexact(c4n,t))
 [L2error,upbd] = computeL2error(uI,uexact,c4n,n4e,T);
 end
 

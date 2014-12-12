@@ -7,7 +7,7 @@ J4p = zeros(nrPts,1);
 x4pn = zeros(nrPts,2);
 v4pn = zeros(nrPts,2);
 sigma4pn = zeros(2,2,nrPts);
-parfor p = 1:nrPts
+for p = 1:nrPts
   % fix p then find nonzero NIxp
   nodes = n4e(e4p(p,:),:);
   NIxp = shapeR(x4p(p,:),c4n(nodes,:));

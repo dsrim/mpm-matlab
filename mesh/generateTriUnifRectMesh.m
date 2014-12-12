@@ -15,7 +15,7 @@ nxy4 = nxy(2:end,1:(end-1));
 n4e = [nxy1(:),nxy2(:),nxy4(:); nxy3(:),nxy4(:),nxy2(:)];   % nodes for elt
 bdNodes = [nxy(1,:)'; nxy(:,end); nxy(end,:)'; nxy(:,1)];
 inNodes = 1:nrNodes; inNodes(bdNodes) = [];
-vol4e = ones(size(n4e,1),1).*((xlim(2)-xlim(1))/nx)*((ylim(2)-ylim(1))/ny);
+vol4e = ones(size(n4e,1),1).*((xlim(2)-xlim(1))/nx)*((ylim(2)-ylim(1))/ny)/2;
 lx = ones(nx+1,1);
 ly = ones(ny+1,1);
 bdNorms = [bdNodes, [-2*lx; 1*ly; 2*lx; -1*ly]];
