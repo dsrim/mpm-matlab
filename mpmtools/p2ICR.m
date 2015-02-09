@@ -6,7 +6,6 @@ mI = zeros(nrSides,1);
 mIJ = sparse(zeros(nrSides,nrSides));
 mvI = zeros(nrSides,2);
 fI = zeros(nrSides,2);
-nrSides = size(n4s,1);
 nrPts = size(x4p,1);
 for p = 1:nrPts
   % Fix p then find I to contribute to

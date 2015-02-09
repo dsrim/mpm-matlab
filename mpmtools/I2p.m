@@ -21,5 +21,5 @@ for p = 1:nrPts
 end
 rho4pn = rhop0./J4p;
 vol4pn = m4p./rho4pn;
-e4pn = updateE4p(c4n,n4e,e4n,x4p,e4p);
+e4pn = updateE4pS(c4n,n4e,e4n,x4p,e4p);
 end

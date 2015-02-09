@@ -14,7 +14,7 @@ parfor p = 1:nrPts
   mI = mI + sparse(nodes, col, m4p(p)*Nxp,nrNodes,1);
   mvI = mvI + sparse([nodes;nodes],cols, m4p(p).*Nxp*vp(p,:),nrNodes,2);
   fI = fI + sparse([nodes;nodes],cols,-vol4p(p)*dNxpdx*sigma4p(:,:,p)'...
-      +m4p(p).*Nxp*b4p(p,:),nrNodes,2);
+      + m4p(p).*Nxp*b4p(p,:),nrNodes,2);
 end
 mvI(mI < 1e-14) = 0;
 mvI = normalBC(mvI,bdNormals);

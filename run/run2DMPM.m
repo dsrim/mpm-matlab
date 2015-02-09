@@ -1,4 +1,4 @@
-function L2error = run2DMPM(n)
+function L2error = run2DMPM
 % Computes Material Point Method solution and returns computed L^2 error
 %
 % L2error = run2DMPM(n)
@@ -8,7 +8,7 @@ function L2error = run2DMPM(n)
 %
 % Donsub Rim (drim@uw.edu)
 %
-
+n = 6;
 
 scale = 100;
 %% Run 2D MPM code
